@@ -76,7 +76,8 @@ if sudoku_generator(grid):
         if board[i][j]==0:
             board[i][j]=grid[i][j]
             m+=1
+    print("This is the generated sudoku\n")
     for i in range(9):
         print(grid[i])
-    print()
+    print("\nYou can challenge anyone to solve the below sudoku!")
     print_board(board)
