@@ -30,8 +30,7 @@ def empty_location(board, pos):
 
 
 def check_position(board, row, col, num):
-    return not row_check(board, row, num) and not col_check(board, col, num) and not square_check(board, row - row % 3,
-                                                                                                  col - col % 3, num)
+    return not row_check(board, row, num) and not col_check(board, col, num) and not square_check(board, row - row % 3, col - col % 3, num)
 
 
 def sudoku_solver(board):
