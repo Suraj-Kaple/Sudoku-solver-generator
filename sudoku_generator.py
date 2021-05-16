@@ -53,6 +53,18 @@ def sudoku_generator(board):
             board[row][col] = 0
     return False
 
+def print_board(board):
+    for i in range(9):
+        if i % 3 == 0:
+            print(' - - - - - - - - - - - -')
+        for j in range(9):
+            if j % 3 == 0:
+                print('|', end=' ')
+            print(board[i][j], end=' ')
+
+        print('|')
+    print(' - - - - - - - - - - - -')
+
 grid = [[0 for i in range(9)] for j in range(9)]
 if sudoku_generator(grid):
     board=[[0 for i in range(9)] for j in range(9)]
@@ -64,8 +76,8 @@ if sudoku_generator(grid):
         if board[i][j]==0:
             board[i][j]=grid[i][j]
             m+=1
+    print("This is the generated sudoku\n")
     for i in range(9):
         print(grid[i])
-    print()
-    for i in range(9):
-        print(board[i])
+    print("\nYou can challenge anyone to solve the below sudoku!")
+    print_board(board)
