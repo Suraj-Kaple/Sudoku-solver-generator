@@ -1,14 +1,3 @@
-import random
-
-def empty_location(board,pos):
-    for i in range(9):
-        for j in range(9):
-            if board[i][j]==0:
-                pos[0]=i
-                pos[1]=j
-                return True
-    return False
-
 def row_check(board, row, num):
     if num in board[row]:
         return True
@@ -30,54 +19,65 @@ def square_check(board, row, col, num):
     return False
 
 
+def empty_location(board, pos):
+    for i in range(9):
+        for j in range(9):
+            if board[i][j] == 0:
+                pos[0] = i
+                pos[1] = j
+                return True
+    return False
+
+
 def check_position(board, row, col, num):
     return not row_check(board, row, num) and not col_check(board, col, num) and not square_check(board, row - row % 3,
                                                                                                   col - col % 3, num)
 
 
-def sudoku_generator(board):
+def sudoku_solver(board):
     pos = [0, 0]
-    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    random.shuffle(numbers)
+
     if not empty_location(board, pos):
         return True
     row = pos[0]
     col = pos[1]
 
-    for num in numbers:
+    for num in range(1, 10):
         if check_position(board, row, col, num):
             board[row][col] = num
 
-            if sudoku_generator(board):
+            if sudoku_solver(board):
                 return True
+
+            # failure, unmake & try again
             board[row][col] = 0
+
+    # this triggers backtracking
     return False
 
-def print_board(board):
+
+grid = [[0 for x in range(9)] for y in range(9)]
+grid = [[3, 6, 4, 0, 0, 0, 0, 0, 0],
+        [1, 8, 5, 0, 0, 0, 0, 0, 0],
+        [9, 7, 2, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 5, 4, 9, 0, 0, 0],
+        [0, 0, 0, 1, 8, 2, 0, 0, 0],  # you can enter grid to this code.This is only a sample
+        [0, 0, 0, 7, 3, 6, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 2, 3, 5],
+        [0, 0, 0, 0, 0, 0, 7, 4, 9],
+        [0, 0, 0, 0, 0, 0, 8, 6, 1]]
+
+# if success print the grid
+if sudoku_solver(grid):
     for i in range(9):
         if i % 3 == 0:
             print(' - - - - - - - - - - - -')
         for j in range(9):
             if j % 3 == 0:
                 print('|', end=' ')
-            print(board[i][j], end=' ')
+            print(grid[i][j], end=' ')
 
         print('|')
     print(' - - - - - - - - - - - -')
-
-grid = [[0 for i in range(9)] for j in range(9)]
-if sudoku_generator(grid):
-    board=[[0 for i in range(9)] for j in range(9)]
-    numb=[0,1,2,3,4,5,6,7,8]
-    m=0
-    while m<17:
-        i=random.choice(numb)
-        j=random.choice(numb)
-        if board[i][j]==0:
-            board[i][j]=grid[i][j]
-            m+=1
-    print("This is the generated sudoku\n")
-    for i in range(9):
-        print(grid[i])
-    print("\nYou can challenge anyone to solve the below sudoku!")
-    print_board(board)
+else:
+    print("No solution exists")
